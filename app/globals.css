@@ -10,3 +10,49 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Pac-Man animations */
+@keyframes pacman {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(110px); }
+}
+
+@keyframes chomp {
+  0%, 100% { transform: translateY(-50%) rotate(0deg); }
+  50%      { transform: translateY(-50%) rotate(40deg); }
+}
+
+@keyframes eat1 {
+  0%, 30%  { opacity: 1; }
+  35%, 100% { opacity: 0; }
+}
+
+@keyframes eat2 {
+  0%, 55%  { opacity: 1; }
+  60%, 100% { opacity: 0; }
+}
+
+@keyframes eat3 {
+  0%, 80%  { opacity: 1; }
+  85%, 100% { opacity: 0; }
+}
+
+.animate-pacman {
+  animation: pacman 3.5s linear infinite;
+}
+
+.animate-chomp {
+  animation: chomp 0.25s ease-in-out infinite;
+}
+
+.animate-eat1 {
+  animation: eat1 3.5s linear infinite;
+}
+
+.animate-eat2 {
+  animation: eat2 3.5s linear infinite;
+}
+
+.animate-eat3 {
+  animation: eat3 3.5s linear infinite;
+}

@@ -7,10 +7,10 @@ export default function About() {
 
             <div className="max-w-4xl text-gray-300 text-medium leading-relaxed space-y-4">
                 <p>
-                    I&apos;m a passionate developer with a strong interest in exploring new technologies in various fields, with a primary focus on backend systems, cloud computing, networking technologies, and cybersecurity. I have a solid foundation in C# and .NET, which I have been steadily learning and building upon. I am eager to expand my knowledge and skills in all things tech and I am always looking for new opportunities to grow.
+                    I&apos;m an aspiring C#/.NET developer with a primary interest in backend development and building practical software solutions. Through self-study and personal projects, I&apos;ve been developing my skills in C#, ASP.NET Core, and backend application design.
                 </p>
                 <p>
-                    My journey into the world of software development began by completing a Cisco Certified Network Associate (CCNA) course, which provided me with a strong understanding of networking fundamentals. I then began to explore programming out of personal curiousity, and after completing a course on Dometrain I decided to pursue software development as a career.
+                    My journey into software development began with a background in networking and a Cisco Certified Network Associate (CCNA) certification. After discovering C# through Dometrain, I developed a strong interest in software development and have continued learning through independent study and hands-on projects. I&apos;m particularly interested in backend systems, cloud computing, networking, and cybersecurity, and I&apos;m always looking for ways to deepen my technical knowledge. 
                 </p>    
             </div>
         </section>
