@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="border-t border-gray-800 mt-10">
@@ -6,12 +8,13 @@ export default function Footer() {
           © {new Date().getFullYear()} Liam van den Berg
         </p>
 
-        {/* Your custom GIF */}
+        {/* pacman C# gif */}
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src="/pacman_csharp_footer.gif"
             alt="Pac-Man eating C#"
-            className="h-12 w-auto"
+            width={160}
+            height={160}
           />
           <span className="text-sm text-gray-400 hidden sm:inline">
             The C Sharpest

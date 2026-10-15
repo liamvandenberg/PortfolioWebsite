@@ -12,7 +12,7 @@ export default function Projects() {
 
       {/* Centered horizontal scroll container */}
       <div className="flex justify-center">
-        <div className="flex gap-6 overflow-x-auto pb-4 max-w-full">
+        <div className="flex gap-10 overflow-x-auto pb-4 max-w-full">
           {sortedProjects.map((project) => (
             <a
               key={project.title}
@@ -21,6 +21,7 @@ export default function Projects() {
               rel="noopener noreferrer"
               className="min-w-75 max-w-75 shrink-0 rounded-xl border border-gray-800 bg-gray-900/50 hover:border-emerald-500/40 transition overflow-hidden"
             >
+              
               {/* Image / Preview */}
               <div className="h-44 bg-gray-800 flex items-center justify-center text-gray-500 text-sm">
                 Project Preview

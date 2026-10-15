@@ -10,6 +10,7 @@ import {
   SiHtml5,
   SiCss,
   SiTailwindcss,
+  SiLinux,
 } from "react-icons/si";
 
 const technologies = [
@@ -27,6 +28,7 @@ const technologies = [
     items: [
       { name: "Docker", icon: SiDocker },
       { name: "Git", icon: SiGit },
+      { name: "Linux", icon: SiLinux },
     ],
   },
   {
@@ -44,7 +46,7 @@ const technologies = [
 
 export default function Technologies() {
   return (
-    <section className="max-w-5xl mx-auto px-6 py-20">
+    <section id="technologies" className="max-w-5xl mx-auto px-6 py-20">
       <h2 className="text-sm font-medium tracking-widest text-emerald-400 mb-10">
         TECHNOLOGIES
       </h2>
