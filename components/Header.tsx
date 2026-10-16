@@ -14,18 +14,19 @@ export default function Header() {
 
         {/* Navigation */}
         <nav className="flex items-center gap-8 text-base text-gray-300">
-          <a href="#about" className="hover:text-white">
+          {/* Link components to navigate back to home page from different page */}
+          <Link href="/#about" className="hover:text-white">
             About Me
-          </a>
-          <a href="#projects" className="hover:text-white">
+          </Link>
+          <Link href="/#projects" className="hover:text-white">
             Projects
-          </a>
-          <a href="#technologies" className="hover:text-white">
+          </Link>
+          <Link href="/#technologies" className="hover:text-white">
             Technologies
-          </a>
-          <a href="#contact" className="hover:text-white">
+          </Link>
+          <Link href="/#contact" className="hover:text-white">
             Contact
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

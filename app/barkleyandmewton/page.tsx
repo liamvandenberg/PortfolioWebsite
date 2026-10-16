@@ -4,14 +4,27 @@ import CaseStudyHero from "@/components/casestudies/CaseStudyHero";
 import CaseStudyMeta from "@/components/casestudies/CaseStudyMeta";
 import CaseStudyOverview from "@/components/casestudies/CaseStudyOverview";
 import CaseStudyDecision from "@/components/casestudies/CaseStudyDecision";
+import CaseStudyNav from "@/components/casestudies/CaseStudyNav";
 import CaseStudyCTA from "@/components/casestudies/CaseStudyCTA";
-import Image from "next/image";
+
+import Link from "next/link";
 import { loremIpsum , loremIpsumLong, loremIpsumVeryVeryLong } from "@/data/loremipsum";
+
+
 
 export default function CaseStudyPage() {
   return (
     <main className="min-h-screen bg-[#0a0e17] text-white">
       <Header />
+
+      <div className="max-w-7xl mx-auto px-6 pt-10">
+        <Link
+          href="/#projects"
+          className="text-sm text-gray-400 hover:text-emerald-400 transition"
+        >
+          ← Back to projects
+        </Link>
+      </div>
 
       {/* Hero */}
       <CaseStudyHero
@@ -21,49 +34,40 @@ export default function CaseStudyPage() {
         logoAlt="Barkley&Mewton Logo"
       />
 
-      {/* Main Grid: Sidebar + Content Stream */}
-      <div className="max-w-5xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-12 items-start">
-          
-          {/* Sidebar Box (Sticky on Desktop) */}
-          <aside className="lg:sticky lg:top-28">
-            <CaseStudyMeta
-              items={[
-                { label: "Year", value: "2026" },
-                { label: "Duration", value: "~3 months & ongoing" },
-                { label: "Role", value: "Full Stack Developer" },
-                { label: "Stack", value: "C# · ASP.NET Core · Next.Js · TypeScript · Tailwind CSS · PostgreSQL" },
-                { label: "Type", value: "Business Project" }
-              ]}
-            />
-          </aside>
+      {/* 3-column layout */}
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="flex gap-12">
+          {/* LEFT - Navigation */}
+          <CaseStudyNav />
 
-          {/* Main Content Stream */}
-          <div className="space-y-16 min-w-0">
+          {/* CENTER - Main content */}
+          <div className="flex-1 min-w-0">
             {/* Overview */}
-            <CaseStudyOverview>
-              <p>
-                Barkley&Mewton is a modern business platform designed for the Barkley&Mewton grooming parlour. The platform was built with a focus on providing a seamless user experience for both customers and staff, leveraging the power of C#, ASP.NET Core, Next.Js, TypeScript, Tailwind CSS, and PostgreSQL.
-              </p>
-              <p>
-                The project involved creating a responsive web application that allows customers to book appointments, view services, and make payments online. For the staff, the platform provides tools for managing appointments, customer information, and service offerings.
-              </p>
-            </CaseStudyOverview>
+            <section id="overview" className="mb-20">
+              <CaseStudyOverview>
+                <p>
+                  Barkley&Mewton is a modern business platform designed for the Barkley&Mewton grooming parlour. The platform was built with a focus on providing a seamless user experience for both customers and staff, leveraging the power of C#, ASP.NET Core, Next.Js, TypeScript, Tailwind CSS, and PostgreSQL.
+                </p>
+                <p>
+                  The project involved creating a responsive web application that allows customers to book appointments, view services, and make payments online. For the staff, the platform provides tools for managing appointments, customer information, and service offerings.
+                </p>
+              </CaseStudyOverview>
+            </section>
 
             {/* Key Technical Decisions */}
-            <section>
-              <h2 className="text-2xl font-semibold mb-10 text-white">Key Technical Decisions</h2>
+            <section id="decisions">
+              <h2 className="text-2xl font-semibold mb-12 text-white">Key Technical Decisions</h2>
 
-              <div className="space-y-16">
+              <div className="space-y-20">
                 {/* Decision 1 */}
                 <CaseStudyDecision
                   number={1}
                   title="ASP.NET Core for Backend"
                   description={loremIpsum}
                   imagePosition="left"
-                  >
-                    {/* This is how images are used with the CaseStudyDecision component */}
-                    <Image width={200} height={200} src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-full h-full object-cover"/>
+                >
+                  {/* This is how images are used with the CaseStudyDecision component */}
+                  <img src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
                 </CaseStudyDecision>
 
                 {/* Decision 2 */}
@@ -80,9 +84,9 @@ export default function CaseStudyPage() {
                   title="Next.js for Frontend"
                   description={loremIpsumLong}
                   imagePosition="left"
-                  >
-                    <Image width={200} height={200} src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-full h-full object-cover"/>
-                  </CaseStudyDecision>
+                >
+                  <img src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
+                </CaseStudyDecision>
 
                 {/* Decision 4 */}
                 <CaseStudyDecision
@@ -95,6 +99,16 @@ export default function CaseStudyPage() {
             </section>
           </div>
 
+          {/* RIGHT - Meta */}
+          <CaseStudyMeta
+            items={[
+              { label: "Year", value: "2026" },
+              { label: "Duration", value: "approx. 3 months & ongoing" },
+              { label: "Role", value: "Full Stack Developer" },
+              { label: "Stack", value: "C# · ASP.NET Core · Next.Js · TypeScript · Tailwind CSS · PostgreSQL" },
+              { label: "Type", value: "Freelance Business Project" }
+            ]}
+          />
         </div>
       </div>
 

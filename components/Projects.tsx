@@ -17,8 +17,6 @@ export default function Projects() {
             <a
               key={project.title}
               href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
               className="min-w-75 max-w-75 shrink-0 rounded-xl border border-gray-800 bg-gray-900/50 hover:border-emerald-500/40 transition overflow-hidden"
             >
               
