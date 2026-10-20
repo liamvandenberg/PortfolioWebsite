@@ -11,14 +11,20 @@ export default function Footer() {
         {/* pacman C# gif */}
         <div className="flex items-center gap-3">
           <Image
-            src="/pacman_csharp_footer.gif"
-            alt="Pac-Man eating C#"
-            width={160}
-            height={160}
+            src="/images/csharp_blocks_build.gif"
+            alt="C# blocks building"
+            width={50}
+            height={40}
           />
           <span className="text-sm text-gray-400 hidden sm:inline">
             The C Sharpest
           </span>
+          <Image
+            src="/images/csharp_blocks_build.gif"
+            alt="C# blocks building"
+            width={50}
+            height={40}
+          />
         </div>
       </div>
     </footer>

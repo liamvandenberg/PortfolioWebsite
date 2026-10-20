@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import CaseStudyHero from "@/components/casestudies/CaseStudyHero";
 import CaseStudyMeta from "@/components/casestudies/CaseStudyMeta";
 import CaseStudyOverview from "@/components/casestudies/CaseStudyOverview";
+import CaseStudyProblem from "@/components/casestudies/CaseStudyProblem";
+import CaseStudySolution from "@/components/casestudies/CaseStudySolution";
 import CaseStudyDecision from "@/components/casestudies/CaseStudyDecision";
 import CaseStudyNav from "@/components/casestudies/CaseStudyNav";
 import CaseStudyCTA from "@/components/casestudies/CaseStudyCTA";
@@ -29,9 +31,11 @@ export default function CaseStudyPage() {
       {/* Hero */}
       <CaseStudyHero
         title="Barkley&Mewton Business Platform"
-        subtitle="A modern business platform for the Barkley&Mewton grooming parlour. Built with C#, ASP.NET Core, Next.Js, TypeScript, Tailwind CSS, and PostgreSQL."
-        logo="/logos/barkleyandmewtonlogo.png"
+        subtitle="A modern business platform for the Barkley&Mewton grooming parlour."
+        logo="/images/barkleyandmewtonlogo.png"
         logoAlt="Barkley&Mewton Logo"
+        bgImage="/images/hero-parlour.png"
+        bgImageAlt="Barkley&Mewton Grooming Parlour"
       />
 
       {/* 3-column layout */}
@@ -48,15 +52,30 @@ export default function CaseStudyPage() {
                 <p>
                   Barkley&Mewton is a modern business platform designed for the Barkley&Mewton grooming parlour. The platform was built with a focus on providing a seamless user experience for both customers and staff, leveraging the power of C#, ASP.NET Core, Next.Js, TypeScript, Tailwind CSS, and PostgreSQL.
                 </p>
-                <p>
-                  The project involved creating a responsive web application that allows customers to book appointments, view services, and make payments online. For the staff, the platform provides tools for managing appointments, customer information, and service offerings.
-                </p>
               </CaseStudyOverview>
+            </section>
+
+            {/* The Problem */}
+            <section id="problem" className="mb-20">
+              <CaseStudyProblem>
+                <p>
+                  The previous business infrastructure was making us of an outdated Wordpress/Woocommerse site. The business could seldomly track the data which was critical to business operations, and the booking process was too overloaded. The business also wanted to expand their offerings to the e-commerse sector, Woocommerse would make this difficult and costly.
+                </p>
+              </CaseStudyProblem>
+            </section>
+
+            {/* The Solution */}
+            <section id="solution" className="mb-20">
+              <CaseStudySolution>
+                <p>
+                  I built (<a href="https://barkleyandmewton.co.za" className=" text-blue-400">barkleyandmewton.co.za</a>) a reliable and maintainable webplatform to solve these problems. It contains a custom race-safe booking engine, business management platform, e-commerse deployment, built-in telemetry monitoring, and SEO {/* etc. etc. add more*/}
+                </p>
+              </CaseStudySolution>
             </section>
 
             {/* Key Technical Decisions */}
             <section id="decisions">
-              <h2 className="text-2xl font-semibold mb-12 text-white">Key Technical Decisions</h2>
+              <h2 className="text-2xl font-semibold mb-10 text-gray-400">Engineering Decisions</h2>
 
               <div className="space-y-20">
                 {/* Decision 1 */}
@@ -67,7 +86,7 @@ export default function CaseStudyPage() {
                   imagePosition="left"
                 >
                   {/* This is how images are used with the CaseStudyDecision component */}
-                  <img src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
+                  <img src="/images/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
                 </CaseStudyDecision>
 
                 {/* Decision 2 */}
@@ -85,7 +104,7 @@ export default function CaseStudyPage() {
                   description={loremIpsumLong}
                   imagePosition="left"
                 >
-                  <img src="/logos/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
+                  <img src="/images/hero-parlour.png" alt="test image for now" className="w-auto h-auto object-cover"/>
                 </CaseStudyDecision>
 
                 {/* Decision 4 */}
@@ -103,7 +122,7 @@ export default function CaseStudyPage() {
           <CaseStudyMeta
             items={[
               { label: "Year", value: "2026" },
-              { label: "Duration", value: "approx. 3 months & ongoing" },
+              { label: "Duration", value: "approx. 3 Months & Ongoing" },
               { label: "Role", value: "Full Stack Developer" },
               { label: "Stack", value: "C# · ASP.NET Core · Next.Js · TypeScript · Tailwind CSS · PostgreSQL" },
               { label: "Type", value: "Freelance Business Project" }

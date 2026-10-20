@@ -2,7 +2,9 @@
 
 const sections = [
   { id: "overview", label: "Overview" },
-  { id: "decisions", label: "Key Technical Decisions" },
+  { id: "problem", label: "The Problem" },
+  { id: "solution", label: "The Solution" },
+  { id: "decisions", label: "Engineering Decisions" },
   // You can add more later (e.g. Results, Lessons Learned...)
 ];
 

@@ -8,7 +8,7 @@ export default function Hero() {
         </h1>
 
         <p className="text-lg text-gray-300 mb-2">
-          A self-taught software developer with a background in Network Engineering, specializing in building scalable and reliable backend systems in C#/.NET
+          A self-taught software developer with a background in Network Engineering, specializing in building scalable and reliable backend systems in C#.
         </p>
 
         <p className="text-gray-400 mb-8">
