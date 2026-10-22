@@ -5,7 +5,10 @@ const sections = [
   { id: "problem", label: "The Problem" },
   { id: "solution", label: "The Solution" },
   { id: "decisions", label: "Engineering Decisions" },
-  // You can add more later (e.g. Results, Lessons Learned...)
+  { id: "challenges", label: "Engineering Challenges" },
+  { id: "testing", label: "Testing & Reliability" },
+  { id: "lessons", label: "Lessons Learned" },
+  
 ];
 
 export default function CaseStudyNav() {

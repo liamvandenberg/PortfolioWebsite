@@ -6,15 +6,19 @@ import CaseStudyOverview from "@/components/casestudies/CaseStudyOverview";
 import CaseStudyProblem from "@/components/casestudies/CaseStudyProblem";
 import CaseStudySolution from "@/components/casestudies/CaseStudySolution";
 import CaseStudyDecision from "@/components/casestudies/CaseStudyDecision";
+import CaseStudyChallenge from "@/components/casestudies/CaseStudyChallenge";
+import CaseStudyTesting from "@/components/casestudies/CaseStudyTesting";
+import CaseStudyLessons from "@/components/casestudies/CaseStudyLessons";
 import CaseStudyNav from "@/components/casestudies/CaseStudyNav";
 import CaseStudyCTA from "@/components/casestudies/CaseStudyCTA";
 
 import Link from "next/link";
-import { loremIpsum , loremIpsumLong, loremIpsumVeryVeryLong } from "@/data/loremipsum";
 
-
+import { barkleyAndMewtonData } from "@/data/barkleyandmewtondata";
 
 export default function CaseStudyPage() {
+  const data = barkleyAndMewtonData;
+
   return (
     <main className="min-h-screen bg-[#0a0e17] text-white">
       <Header />
@@ -28,112 +32,96 @@ export default function CaseStudyPage() {
         </Link>
       </div>
 
-      {/* Hero */}
-      <CaseStudyHero
-        title="Barkley&Mewton Business Platform"
-        subtitle="A modern business platform for the Barkley&Mewton grooming parlour."
-        logo="/images/barkleyandmewtonlogo.png"
-        logoAlt="Barkley&Mewton Logo"
-        bgImage="/images/hero-parlour.png"
-        bgImageAlt="Barkley&Mewton Grooming Parlour"
-      />
+      <CaseStudyHero {...data.hero} />
 
-      {/* 3-column layout */}
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="flex gap-12">
-          {/* LEFT - Navigation */}
-          <CaseStudyNav />
-
-          {/* CENTER - Main content */}
-          <div className="flex-1 min-w-0">
-            {/* Overview */}
-            <section id="overview" className="mb-20">
-              <CaseStudyOverview>
-                <p>
-                  Barkley&Mewton is a modern business platform designed for the Barkley&Mewton grooming parlour. The platform was built with a focus on providing a seamless user experience for both customers and staff, leveraging the power of C#, ASP.NET Core, Next.Js, TypeScript, Tailwind CSS, and PostgreSQL.
-                </p>
-              </CaseStudyOverview>
-            </section>
-
-            {/* The Problem */}
-            <section id="problem" className="mb-20">
-              <CaseStudyProblem>
-                <p>
-                  The previous business infrastructure was making us of an outdated Wordpress/Woocommerse site. The business could seldomly track the data which was critical to business operations, and the booking process was too overloaded. The business also wanted to expand their offerings to the e-commerse sector, Woocommerse would make this difficult and costly.
-                </p>
-              </CaseStudyProblem>
-            </section>
-
-            {/* The Solution */}
-            <section id="solution" className="mb-20">
-              <CaseStudySolution>
-                <p>
-                  I built (<a href="https://barkleyandmewton.co.za" className=" text-blue-400">barkleyandmewton.co.za</a>) a reliable and maintainable webplatform to solve these problems. It contains a custom race-safe booking engine, business management platform, e-commerse deployment, built-in telemetry monitoring, and SEO {/* etc. etc. add more*/}
-                </p>
-              </CaseStudySolution>
-            </section>
-
-            {/* Key Technical Decisions */}
-            <section id="decisions">
-              <h2 className="text-2xl font-semibold mb-10 text-gray-400">Engineering Decisions</h2>
-
-              <div className="space-y-20">
-                {/* Decision 1 */}
-                <CaseStudyDecision
-                  number={1}
-                  title="ASP.NET Core for Backend"
-                  description={loremIpsum}
-                  imagePosition="left"
-                >
-                  {/* This is how images are used with the CaseStudyDecision component */}
-                  <img src="/images/barkleyandmewtonlogo.png" alt="test image for now" className="w-auto h-auto object-cover"/>
-                </CaseStudyDecision>
-
-                {/* Decision 2 */}
-                <CaseStudyDecision
-                  number={2}
-                  title="Entity Framework Core + PostgreSQL"
-                  description={loremIpsum}
-                  imagePosition="right"
-                />
-
-                {/* Decision 3 */}
-                <CaseStudyDecision
-                  number={3}
-                  title="Next.js for Frontend"
-                  description={loremIpsumLong}
-                  imagePosition="left"
-                >
-                  <img src="/images/hero-parlour.png" alt="test image for now" className="w-auto h-auto object-cover"/>
-                </CaseStudyDecision>
-
-                {/* Decision 4 */}
-                <CaseStudyDecision
-                  number={4}
-                  title="Dockerized Environment"
-                  description={loremIpsumVeryVeryLong}
-                  imagePosition="left"
-                />
-              </div>
-            </section>
+        {/* Main layout container */}
+        <div className="flex gap-12 items-start">
+          
+          {/* Sticky navigation */}
+          <div className="hidden lg:block sticky top-24 self-start">
+            <CaseStudyNav />
           </div>
 
-          {/* RIGHT - Meta */}
-          <CaseStudyMeta
-            items={[
-              { label: "Year", value: "2026" },
-              { label: "Duration", value: "approx. 3 Months & Ongoing" },
-              { label: "Role", value: "Full Stack Developer" },
-              { label: "Stack", value: "C# · ASP.NET Core · Next.Js · TypeScript · Tailwind CSS · PostgreSQL" },
-              { label: "Type", value: "Freelance Business Project" }
-            ]}
-          />
+          {/* Main Content Area */}
+          <div className="flex-1 min-w-0">
+            
+            {/* Top Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 mb-20">
+              <div className="space-y-20">
+                <section id="overview">
+                  <CaseStudyOverview>
+                    {data.overviewHtml}
+                  </CaseStudyOverview>
+                </section>
+
+                <section id="problem">
+                  <CaseStudyProblem>
+                    {data.problemHtml}
+                  </CaseStudyProblem>
+                </section>
+
+                <section id="solution">
+                  <CaseStudySolution>
+                    {data.solutionHtml}
+                  </CaseStudySolution>
+                </section>
+              </div>
+
+              {/* Meta strictly confined to top section */}
+              <div>
+                <CaseStudyMeta items={data.metaItems} />
+              </div>
+            </div>
+
+            {/*Engineering Decisions */}
+            <section id="decisions" className="mb-20 pt-12 border-t border-gray-800">
+              <h2 className="text-2xl font-semibold mb-10 text-gray-400">
+                Engineering Decisions
+              </h2>
+              <div className="space-y-20">
+                {data.decisions.map((dec) => (
+                  <CaseStudyDecision key={dec.number} {...dec}>
+                    {dec.children}
+                  </CaseStudyDecision>
+                ))}
+              </div>
+            </section>
+
+            {/* Challenges */}
+            <section
+              id="challenges"
+              className="pt-12 border-t border-gray-800 space-y-6 mb-20"
+            >
+              <h2 className="text-2xl font-semibold mb-8 text-gray-400">
+                Engineering Challenges
+              </h2>
+              {data.challenges.map((challenge, idx) => (
+                <CaseStudyChallenge
+                  key={idx}
+                  number={idx + 1}
+                  title={challenge.title}
+                >
+                  {challenge.content}
+                </CaseStudyChallenge>
+              ))}
+            </section>
+
+            <section id="testing" className="pt-12 border-t border-gray-800 mb-20">
+              <CaseStudyTesting metrics={data.testing.metrics}>
+                {data.testing.strategyContent}
+              </CaseStudyTesting>
+            </section>
+
+            <section id="lessons" className="pt-12 border-t border-gray-800">
+              <CaseStudyLessons lessons={data.lessons} />
+            </section>
+
+          </div>
         </div>
       </div>
 
-      {/* Bottom CTA */}
       <CaseStudyCTA />
-
       <Footer />
     </main>
   );

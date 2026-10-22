@@ -13,6 +13,7 @@ export default function Footer() {
           <Image
             src="/images/csharp_blocks_build.gif"
             alt="C# blocks building"
+            unoptimized
             width={50}
             height={40}
           />
@@ -22,6 +23,7 @@ export default function Footer() {
           <Image
             src="/images/csharp_blocks_build.gif"
             alt="C# blocks building"
+            unoptimized
             width={50}
             height={40}
           />
