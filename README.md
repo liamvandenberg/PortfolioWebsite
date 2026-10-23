@@ -3,7 +3,7 @@
 <div align="center">
   <p>A personal portfolio showcasing my projects, technical interests, and development journey.</p>
   <p>
-    <strong>Planned live site:</strong>
+    <strong>Live site:</strong>
     <a href="https://liamvandenberg.dev">liamvandenberg.dev</a>
   </p>
   <p>
@@ -16,7 +16,7 @@
 
 ## Preview
 
-![Preview of the portfolio website](public/images/website/portfolio_preview.PNG)
+![Preview of the portfolio website](public/images/website/git_website_preview.PNG)
 
 ## About
 
