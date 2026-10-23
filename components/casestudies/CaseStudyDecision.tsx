@@ -72,22 +72,31 @@ export default function CaseStudyDecision({
     // Multiple Images: Grid Thumbnails triggering gallery lightbox
     return (
       <div className="grid grid-cols-2 gap-4">
-        {imageNodes.map((node, idx) => (
-          <div
-            key={idx}
-            onClick={() => setZoomedIndex(idx)}
-            className={`group relative bg-gray-900 border border-gray-800 rounded-xl overflow-hidden transition cursor-pointer hover:border-emerald-500/50 ${
-              imageNodes.length === 3 && idx === 2 ? "col-span-2 h-48" : "h-40"
-            }`}
-          >
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-              <span className="text-[11px] font-mono font-medium text-white bg-gray-900/90 px-2.5 py-1 rounded-full border border-gray-700">
-                View #{idx + 1}
-              </span>
+        {imageNodes.map((node, idx) => {
+          // Automatically inject sizes prop into grid images to clear console warnings
+          const sizedNode = React.isValidElement(node)
+            ? React.cloneElement(node as React.ReactElement<{ sizes?: string }>, {
+                sizes: "(max-width: 768px) 100vw, 400px",
+              })
+            : node;
+
+          return (
+            <div
+              key={idx}
+              onClick={() => setZoomedIndex(idx)}
+              className={`group relative bg-gray-900 border border-gray-800 rounded-xl overflow-hidden transition cursor-pointer hover:border-emerald-500/50 ${
+                imageNodes.length === 3 && idx === 2 ? "col-span-2 h-48" : "h-40"
+              }`}
+            >
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                <span className="text-[11px] font-mono font-medium text-white bg-gray-900/90 px-2.5 py-1 rounded-full border border-gray-700">
+                  View #{idx + 1}
+                </span>
+              </div>
+              {sizedNode}
             </div>
-            {node}
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   };

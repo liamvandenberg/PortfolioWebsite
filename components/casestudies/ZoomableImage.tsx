@@ -16,8 +16,9 @@ export default function ZoomableImage({
 }: ZoomableImageProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Extract alt text automatically if no explicit caption prop is supplied
-  const childElement = React.Children.only(children) as React.ReactElement<{ alt?: string }>;
+  // Safe extraction for caption
+  const childArray = React.Children.toArray(children);
+  const childElement = (childArray.length > 0 ? childArray[0] : null) as React.ReactElement<{ alt?: string }> | null;
   const activeCaption = caption || childElement?.props?.alt;
 
   // Escape key + disable scroll on open
@@ -39,13 +40,13 @@ export default function ZoomableImage({
 
   const modal = isOpen ? (
     <div
-      className="fixed inset-0 z-99999! flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
+      className="fixed inset-0 z-99999 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
       onClick={() => setIsOpen(false)}
     >
       {/* Close Button */}
       <button
         onClick={() => setIsOpen(false)}
-        className="fixed top-6 right-6 z-100000! px-4 py-2 rounded-full bg-gray-800 hover:bg-emerald-500 text-white hover:text-black border border-gray-700 flex items-center gap-2 text-sm font-medium transition-colors shadow-2xl"
+        className="fixed top-6 right-6 z-100000 px-4 py-2 rounded-full bg-gray-800 hover:bg-emerald-500 text-white hover:text-black border border-gray-700 flex items-center gap-2 text-sm font-medium transition-colors shadow-2xl"
         aria-label="Close modal"
       >
         <span>Close</span>

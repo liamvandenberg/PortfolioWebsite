@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
@@ -17,20 +18,35 @@ export default function Projects() {
             <a
               key={project.title}
               href={project.link}
-              className="min-w-75 max-w-75 shrink-0 rounded-xl border border-gray-800 bg-gray-900/50 hover:border-emerald-500/40 transition overflow-hidden"
+              className="group min-w-75 max-w-75 shrink-0 rounded-xl border border-gray-800 bg-gray-900/50 hover:border-emerald-500/40 transition overflow-hidden flex flex-col"
             >
-              
               {/* Image / Preview */}
-              <div className="h-44 bg-gray-800 flex items-center justify-center text-gray-500 text-sm">
-                Project Preview
+              <div className="relative h-44 w-full bg-gray-800 overflow-hidden">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 300px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+                    Project Preview
+                  </div>
+                )}
               </div>
 
               {/* Text content */}
-              <div className="p-5">
-                <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {project.description}
-                </p>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
               </div>
             </a>
           ))}

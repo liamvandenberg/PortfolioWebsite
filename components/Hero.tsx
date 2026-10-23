@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Hero() {
   return (
     <section className="max-w-5xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-12">
@@ -18,9 +20,7 @@ export default function Hero() {
         {/* Buttons / Socials */}
         <div className="flex items-center gap-4">
           <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="resume"
             className="bg-emerald-500 hover:bg-emerald-400 text-black font-medium px-6 py-2.5 rounded-lg transition"
           >
             Resume
@@ -51,10 +51,17 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Right side - Profile picture placeholder */}
+      {/* Right side - Profile Picture */}
       <div className="shrink-0">
-        <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gray-800 border-4 border-emerald-500/30 flex items-center justify-center text-gray-500">
-          Photo
+        <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-emerald-500/30 bg-gray-800 shadow-xl">
+          <Image
+            src="/images/website/liam_profile_photo.jpg" 
+            alt="Liam van den Berg"
+            fill
+            sizes="(max-width: 768px) 100vw, 300px"
+            className="object-cover"
+            priority
+          />
         </div>
       </div>
     </section>

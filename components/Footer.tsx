@@ -11,7 +11,7 @@ export default function Footer() {
         {/* pacman C# gif */}
         <div className="flex items-center gap-3">
           <Image
-            src="/images/csharp_blocks_build.gif"
+            src="/images/website/csharp_blocks_build.gif"
             alt="C# blocks building"
             unoptimized
             width={50}
@@ -21,7 +21,7 @@ export default function Footer() {
             The C Sharpest
           </span>
           <Image
-            src="/images/csharp_blocks_build.gif"
+            src="/images/website/csharp_blocks_build.gif"
             alt="C# blocks building"
             unoptimized
             width={50}

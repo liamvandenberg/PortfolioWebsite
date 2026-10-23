@@ -222,7 +222,7 @@ New:                  |---------|
 T       he important realization, however, was that <strong>this query cannot be the final authority on concurrency.</strong>
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             The database must enforce the invariant
           </strong>
         </p>
@@ -251,7 +251,7 @@ WHERE ("Status" <> 4 AND "ScheduledByAdmin" = false);`}
           Because the constraint operates on the stored booking interval, it protects the data even when two requests reach the database concurrently.
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             Why this is different from another availability check
           </strong>
         </p>
@@ -266,7 +266,7 @@ WHERE ("Status" <> 4 AND "ScheduledByAdmin" = false);`}
         I don&apos;t forsee it really being that common, but it means that with this enforcement, whether this system serves 10 people or 10 000 people, it will always successfully block double bookings.
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             Turning a database conflict into an API response
           </strong>
         </p>
@@ -296,7 +296,7 @@ WHERE ("Status" <> 4 AND "ScheduledByAdmin" = false);`}
         The same conflict handling is also applied when an administrator updates a booking in a way that would violate the customer-booking constraint. (slight foreshadowing)
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             Availability is not treated as a reservation
           </strong>
         </p>
@@ -316,7 +316,7 @@ WHERE ("Status" <> 4 AND "ScheduledByAdmin" = false);`}
         The frontend uses availability to provide a good user experience.
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             Admin bookings are deliberately different (oh boy...)
           </strong>
         </p>
@@ -353,7 +353,7 @@ WHERE ("Status" <> 4 AND "ScheduledByAdmin" = false);`}
         This was an important choice since the business still wants to retain booking history, while the cancelled appointment no longer blocks the slot from being rebooked.
         </p>
         <p>
-          <strong className="text-l font-extrabold">
+          <strong className="text-xl font-extrabold">
             The Result
           </strong>
         </p>
@@ -401,7 +401,271 @@ Final concurrency guarantee
       number: 2,
       title: "Securing a System With Different User Roles",
       content: (
-        <p>Customers and administrators interact with the same platform but have fundamentally different capabilities. A customer should never be able to promote themselves to an administrator simply by modifying a request or submitting a different role value. Obviously. But in practice this was my first time working with JWT and Auth in general so the process was slow and meticulous.</p>
+        <>
+        <p>
+          Authentication and authorization were areas of the project where I was learning as I built.
+          Before this application, I had very little practical experience working with JSON Web Tokens, claims, principals, refresh tokens, or role-based authorization in a real application.
+          I understood the concepts at a high level (mostly), but this was the first time I had to design an authentication system where security decisions affected a real business and real customer data.
+        </p>
+        <p>
+          To complicate things further, this wasn&apos;t just about adding a login page and putting [Authorize] on a few controllers.
+          The application containted two fundamentally different types of identity from the start:
+        </p>
+        <ul>
+            <strong><li>Customers:</li></strong> who should only be able to access their own information and perform customer operations.
+            <strong><li>Admins:</li></strong> who required access to the operational side of the platform and could manage information belonging to the wider business.
+        </ul>
+        <p>
+          And<strong> never the two shall meet.</strong>
+        </p>
+        <p>
+          The challenge therefore was to figure out: 
+        </p>
+        <CodeBlock
+          code={`Who is the user?
+ AND
+ What are they allowed to access?`}
+          />
+        <p>
+          The second question proved to be much more important than simply establishing that somebody was logged in.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Learning JWTs and principals through implementation
+          </strong>
+        </p>
+        <p>
+          My starting point was to understand what actually happens after a successful login.
+          A customer or administrator supplies credentials to the ASP.NET Core backend through a controller and once those credentials have been verified, the backend creates a JWT access token containing claims about the authenticated principal.
+        </p>
+        <p>
+          One of the most important claims in the application is the role:
+        </p>
+        <CodeBlock
+          code={`var claims = new List<Claim>
+{
+    new(ClaimTypes.NameIdentifier, principalId.ToString()),
+    new(ClaimTypes.Name, name),
+    new(ClaimTypes.Email, email),
+    new(ClaimTypes.Role, role)
+};`}
+          />
+        <p>
+          ASP.NET Core can use the ClaimTypes.Role value when evaluating role-based authorization right on the controller:
+        </p>
+        <CodeBlock
+          code={`[Authorize(Roles = "Admin")]`}
+          />
+        <p>
+          So what I had to learn was that JWT does not mean &quot;This person is allowed to login&quot;, it&apos;s more about establishing and authentication principal with the information that the application can use to make authorization decisions.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Roles were deliberately controlled by the server
+          </strong>
+        </p>
+        <p>
+          One of the first important security concerns to nail was that <strong>customers must never be able to choose their own role.</strong>
+        </p>
+        <p>
+          It sounds obvious but in essence it means we cant build a system which just accepts something like:
+        </p>
+        <CodeBlock
+          code={`{
+    "email": "someone@example.com",
+    "password": "...",
+    "role": "Admin"
+}`}
+          />
+        <p>
+          The customer role is assigned by the server when the authentication principal is created, after email verification.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Customer and administrator identities are separate
+          </strong>
+        </p>
+        <p>
+          The platform maintains separate Users and Admins identity records. 
+          This was deliberate decision because the two identities have vastly different security requirements and responsibilities.
+        </p>
+        <p>
+          The login process checks for an administrator identity first. 
+          If one exists, the credentials are verified against the administrator&apos;s password hash and an Admin principal is created.
+          Otherwise, the application attempts customer authentication and creates a Customer principal.
+        </p>
+        <p>
+          This distinction is important because an email address must not accidentally cause the wrong type of identity to be authenticated.
+          The authentication service therefore contains explicit logic around the possibility of an address existing in both identity tables. 
+          The same concern is considered during refresh-token processing so that an existing customer refresh token cannot silently produce a customer session for an address that has subsequently become associated with an administrator account.
+          This was one of the areas where the security work went beyond simply following a JWT tutorial.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Authentication is not authorization
+          </strong>
+        </p>
+        <p>
+          One of the biggest lessons from the project was understanding that successfully authenticating a customer does not mean they are allowed to access arbitrary customer resources.
+        </p>
+        <p>
+          For example, suppose two customers exist within the system. Both may have completely valid JWTs and both may have:
+        </p>
+        <CodeBlock
+          code={`Authenticated = true
+ Role = Customer`}
+          />   
+        <p>
+          Both being authentication, and having similar roles does not give them permission to view each other&apos;s data. 
+          It sounds like an intuitive truth, but making sure it works in the system became a very important distinction.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Preventing customer data from bleeding across accounts
+          </strong>
+        </p>
+        <p>
+          This was an area I came very conscious of during development.
+          For ever customer-facing endpoint, I had to consider what would happen if a valid customer deliberately changed an identified in the request.
+        </p>
+        <p>
+          For example:
+        </p>
+        <CodeBlock
+          code={`GET /api/users/{some-other-user-id}`}
+          />
+        <p>
+          or
+        </p>
+        <CodeBlock
+          code={`GET /api/bookings/{booking-id-belonging-to-someone-else}`}
+          />
+        <p>
+          We needed authorization checks that combine the authenticated principal with the resource being accessed.
+        </p>
+        <p>
+          The users service, for example, extracts the role from the ClaimsPrincipal and treats administrators differently from customers when determining whether a user record can be accessed. 
+          The same principle was applied across customer-owned resources. 
+          A customer can be authenticated and still be denied access because the requested resource belongs to somebody else.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            The security audit mindset
+          </strong>
+        </p>
+        <p>
+          I had a conscious mental model when I was designing the endpoints of: &quot;How are people going to try and break this?&quot;
+        </p>
+        <p>
+          I started thinking about hostile or malicious incorrect requests:
+        </p>
+        <CodeBlock
+          code={`Customer A:
+ Requests Customer A's data      → Allow
+ Requests Customer B's data      → Deny
+ Requests an admin resource      → Deny
+ Changes an ID in the URL        → Deny if not owned
+ Modifies an admin-only field    → Deny
+ Attempts to self-assign Admin   → Never accepted (even considering IP bans here)`}
+          />
+        <p>
+          I was asking myself the question of: &quot;What is the worst thing and authenticated user could attempt to do through this endpoint?&quot;
+        </p>
+        <p>
+          That question exposed a much wider range of problems than just making sure the correct endpoints had [Authorize] on them.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            The API had to be the authoritative security layer
+          </strong>
+        </p>
+        <p>
+          The browser communicates with the Next.js application rather than directly communicating with the ASP.NET Core API. 
+          This created a Backend-for-Frontend boundary, but it also meant that the security model had to remain consistent across that boundary. 
+          The frontend could not be treated as the authority on what a customer was allowed to do.
+        </p>
+        <p>
+          It couldn&apos;t be as straight-forward as hiding an administrative button on the frontend and expect it to be enough, a malicious client could potentially construct the request manually without using the intended interface.
+        </p>
+        <p>
+          The security model therefore had to sit outside of the UI. The lesson to me was that: &quot;The frontend can improve the user experience, but it cannot be the security boundary.&quot;
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Authentication was itself treated as a layered system.
+          </strong>
+        </p>
+        <p>
+          The security work also extended beyond the role claim.
+          Customer authentication includes email verification before a customer can receive or continue using an authenticated session.
+          The refresh flow checks the customer&apos;s verification state as well.
+        </p>
+        <p>
+          <strong>Passwords are never persisted directly.</strong>
+          The authentication service hashes passwords before storing them and verifies supplied credentials against those hashes rather than comparing plaintext values.
+          Refresh tokens are also treated as credentials rather than ordinary application data.
+          The raw refresh token is returned to the client, while its hash is stored in PostgreSQL. Refreshing a session revokes the token that was just used and generates a replacement.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            Testing was part of this security flow
+          </strong>
+        </p>
+        <p>
+          The same thinking carried into the automated tests.
+          The test suite creates authenticated principals with explicit NameIdentifier and Role claims, allowing customer and administrator behavior to be tested independently.
+        </p>
+        <p>
+          That made it possible to test scenarios such as:
+        </p>
+        <CodeBlock
+          code={`Customer → own resource       → allowed
+ Customer → another resource   → denied
+ Customer → admin operation    → denied
+ Admin    → protected resource → allowed
+ Unauthenticated → protected   → denied`}
+          />
+        <p>
+          This was actually useful because authorization bugs were often invisible during normal development.
+          If I login as myself and request my own data, everything looks correct.
+          Testing therefore had to include deliberately incorrect identities and deliberately incorrect resource identifiers. 
+          Something that seems obvious to anyone working with security before, but something I had to learn as I went along.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            What I learned by doing this
+          </strong>
+        </p>
+        <p>
+          Before building the platform, JWTs were largely something I understood conceptually. 
+          Building the authentication system forced me to understand what the token actually represented, how claims become part of an ASP.NET Core ClaimsPrincipal, how role-based authorization consumes those claims, and—more importantly—where role authorization stops being enough.
+          It was also important to get first-hand exposure to how these systems can be tricked and then learning to account for that.
+        </p>
+        <p>
+          A secure system has to continuosly be able to answer:
+        </p>
+        <CodeBlock
+          code={`Who are you?
+        ↓
+ How did we authenticate you?
+        ↓
+ What role do you have?
+        ↓
+ What resource are you requesting?
+        ↓
+ Do you own that resource?
+        ↓
+ Are you allowed to perform this operation?
+        ↓
+ What data are you allowed to see?`}
+          />
+        <p>
+          For a system storing customer profiles, pets, bookings, orders, contact information and operational business data, preventing that kind of data leakage was more important than simply making the login flow work.
+        </p>
+        <p>
+          All the while trying to furiously google &quot;What is a JWT secret key used for&quot;
+        </p>   
+        </>
       ),
     },
   ],
@@ -416,7 +680,28 @@ Final concurrency guarantee
     strategyContent: (
       <>
         <p>
-          Testing wasn&apos;t limited to controllers and UI components. Business rules such as booking calculations, authentication behaviour, validation, and API responses were tested independently, while a full CI pipeline provides automated validation when changes are introduced.
+          Testing wasn&apos;t limited to controllers and UI components. 
+          Business rules such as booking calculations, authentication behaviour, validation, and API responses were tested independently, while a full CI pipeline provides automated validation when changes are introduced. 
+          The backend tests provide the deepest coverage of business logic and API behaviour. 
+          The frontend tests protect the user interface and interaction model. 
+          The E2E tests provide a smaller number of high-value checks that verify the major pieces still work together.
+        </p>
+        <p>
+          <strong className="text-xl font-extrabold">
+            AI-assisted text developement
+          </strong>
+        </p>
+        <p>
+          A significant amount of the automated test suite was developed with AI assistance. 
+          I want to be transparent about this because the number of tests alone does not tell the whole story; AI was particularly useful for generating test around existing code, and Identifying edge cases. 
+          It is also wicked fast for filling in these repetitive scenarios, and working through a large number of different scenarios surrounding the business rules.
+        </p>
+        <p>
+          However, just because the test passed and compiles, it didn&apos;t mean I was treating them as immediately trustworthy. 
+          I remained responsible for deciding what the application should actually guarantee, reviewing the generated tests, correcting inaccurate assumptions and checking that the tests represented real business behaviour rather than simply testing the implementation.
+        </p>
+        <p>
+          I wanted to use AI as a development tool first and foremost instead of letting it replace my own judgement.
         </p>
       </>
     ),
@@ -434,7 +719,7 @@ Final concurrency guarantee
     },
     {
       title: "How to build real applications.",
-      description: "This is the project that taught me how to build a real application, that was made to solve real problems. This was a very large step up from basic tutorial projects I had done before, but this trial-by-fire gave me very good first-hand experience of what working on a real business application requires.",
+      description: "This is the project that taught me how to build a real application, especially one that was made to solve real problems. This was a very large step up from basic tutorial projects I had done before, but this trial-by-fire gave me very good first-hand experience of what working on a real business application requires.",
     },
   ],
 };
