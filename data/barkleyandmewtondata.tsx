@@ -386,13 +386,13 @@ Final concurrency guarantee
 201 Created    409 Conflict`}
           />
         <p>
-        The application validates the request and provides an efficient user experience.
-        The database protects the integrity of the data when multiple requests race.
-        The controller translates the database conflict into a meaningful HTTP response.
         The UI shows which slots are available.
+        The application validates the request and provides a nice user experience.
+        The controller translates the database conflict into a meaningful HTTP response.
+        The database protects the integrity of the data when multiple requests come in at once.
         </p>
         <p>
-        And the coolest part to me is that is scales really well with users since the foundation is solid, alongside the rate limiting to not be overwhelmed during production.
+        And the coolest part to me is that is scales really well with users since the foundation for the Insert functions is solid. Combined with the rate limiting, means it can stand up to being overwhelmed in production.
         </p>
         </>
       ),
