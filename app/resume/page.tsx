@@ -16,7 +16,7 @@ export default function ResumePage() {
           </Link>
 
           <a
-            href="/images/website/Liam_van_den_Berg_Junior_DotNet_CV.pdf" //this is for the real CV file
+            href="/images/website/Liam_van_den_Berg_Junior_DotNet_CV_1.pdf" //this is for the real CV file
             download="Liam_van_den_Berg_Resume.pdf"
             className="bg-emerald-500 hover:bg-emerald-400 text-black font-medium px-5 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow-lg"
           >
@@ -36,7 +36,7 @@ export default function ResumePage() {
         <div className="bg-[#111623] border border-gray-800 rounded-2xl p-4 md:p-8 shadow-2xl">
           <div className="relative w-full rounded-xl overflow-hidden border border-gray-800 bg-white shadow-2xl">
             <Image
-              src="/images/website/Liam_van_den_Berg_Junior_DotNet_CV-1.png" //This for the CV exported to a png or jpg
+              src="/images/website/Liam_van_den_Berg_Junior_DotNet_CV_1_image.png" //This for the CV exported to a png or jpg
               alt="Liam van den Berg Resume Preview"
               width={1200}
               height={1697} 
